@@ -1,0 +1,4 @@
+**/tests*/
+**/test_output/
+**/*_bin
+run_tests.sh
