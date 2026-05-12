@@ -8,18 +8,12 @@ struct ST{
 };
 
 void solve(int N, vector<vector<int>>&adj){
-    int s = 0;
-    for (int i = 0; i < N; ++i){
-        if (adj[i].size() == 1){
-            s = i; 
-            break;
-        }
-    }
-   
-    int dp[200010][2] = {}; 
+    int s = 0;   
+    vector<vector<int>>dp(N,vector<int>(2,0)); 
 
     stack<ST>st; 
     st.push({s,-1,false});
+
     while (!st.empty()){
         auto [u,parent, processed] = st.top(); 
         st.pop(); 
@@ -40,7 +34,7 @@ void solve(int N, vector<vector<int>>&adj){
             }
         }
     }
-    cout << max(dp[s][0], dp[s][1]);
+    cout << max(dp[s][0], dp[s][1]) << endl;
 }
 
 
