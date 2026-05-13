@@ -1,40 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct ST{
-    int u;
-    int parent; 
-    bool processed;
-};
+const int INF = 1e9; 
+const int N = 2*1e5 + 10; 
 
-void solve(int N, vector<vector<int>>&adj){
-    int s = 0;   
-    vector<vector<int>>dp(N,vector<int>(2,0)); 
+int dp[N][2];
+vector<int>adj[N];
 
-    stack<ST>st; 
-    st.push({s,-1,false});
-
-    while (!st.empty()){
-        auto [u,parent, processed] = st.top(); 
-        st.pop(); 
-        if (!processed){
-            st.push({u,parent,true});
-            for (auto v: adj[u]){
-                if (v == parent) continue; 
-                st.push({v,u,false});
-            }
-        } else {
-            for (auto v: adj[u]){
-                if (v == parent) continue;
-                dp[u][0] += max(dp[v][0], dp[v][1]);
-            }
-            for (auto v: adj[u]){
-                if (v == parent) continue;
-                dp[u][1] = max(dp[u][1], 1 + dp[u][0] + dp[v][0] - max(dp[v][0], dp[v][1]));
-            }
-        }
+void dfs(int u, int par){
+    dp[u][0] = 0; 
+    dp[u][1] = -INF; 
+    for (auto n: adj[u]){
+        if (n == par) continue; 
+        dfs(n,u);
+        dp[u][0] += max(dp[n][0], dp[n][1]);
+        dp[u][1] = max(dp[u][1], min(dp[n][0]-dp[n][1], 0)); 
     }
-    cout << max(dp[s][0], dp[s][1]) << endl;
+    dp[u][1]+=dp[u][0];
+    dp[u][1]++;
+}
+
+void solve(){
+    dfs(0,-1); 
+    cout << max(dp[0][0], dp[0][1]);
 }
 
 
@@ -44,7 +32,6 @@ int main() {
     cin.tie(nullptr);
     int N; 
     cin >> N; 
-    vector<vector<int>>adj(N);
     for (int i = 0; i < N-1; ++i){
         int u,v; 
         cin >> u; 
@@ -52,5 +39,5 @@ int main() {
         adj[u-1].push_back(v-1);
         adj[v-1].push_back(u-1);
     }
-    solve(N, adj);
+    solve();
 }
