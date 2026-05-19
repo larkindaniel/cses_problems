@@ -27,7 +27,6 @@ void solve(int n, vector<int>&parent, vector<pair<int,int>>&queries){
         }
     }
 
-
     for (auto [x,k]: queries) {
         int res = query(x, k, up);
         if (res == -1) cout << res; 
