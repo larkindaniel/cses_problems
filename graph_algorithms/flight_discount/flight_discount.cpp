@@ -2,7 +2,7 @@
 using namespace std;
 
 constexpr int N = 100010;
-constexpr long long INF = 1LL << 32;  
+constexpr long long INF = 1LL << 60;  
 vector<pair<int,int>>adj[N];
 
 
